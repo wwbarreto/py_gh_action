@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "py-gh-action"
+version = "0.1.0"
+description = "Uma aplicacao simples para testar o github action"
+authors = ["Wesley Barreto"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.115.0"
+uvicorn = "^0.30.6"
+sqlalchemy = "^2.0.35"
+httpx = "^0.27.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+
+[tool.poetry.extras]
+dev = ["pytest"]
+
+[tool.poetry.scripts]
+start = "uvicorn app.main:app --reload"
+test = "pytest"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
