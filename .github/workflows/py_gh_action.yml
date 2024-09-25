@@ -1,0 +1,33 @@
+name: Python Project Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Escolha o ambiente (dev, qa, prd)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - qa
+        - prd
+jobs:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+    - name: Define environments
+      shell: bash
+      run: |
+        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+          echo "ENV=prdv" >> $GITHUB_ENV
+        elif [[ ${{ github.ref }} == 'refs/heads/qa' ]]; then
+          echo "ENV=qa" >> $GITHUB_ENV
+        else
+          echo "ENV=dev" >> $GITHUB_ENV
+        fi
+    - name: Trigger template pipeline
+      uses: wwbarreto/gh_action_template@main
+      with:
+        environment: ${{ env.ENV  }}
